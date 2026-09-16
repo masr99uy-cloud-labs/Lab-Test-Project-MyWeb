@@ -10,6 +10,6 @@ jobs:
   log_message:
     runs-on: ubuntu-latest
     steps:
-      -name: log
-      run: echo "Workflow working"
+      - name: log
+        run: echo "Workflow working"
    
