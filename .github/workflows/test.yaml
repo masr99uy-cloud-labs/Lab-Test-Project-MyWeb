@@ -32,7 +32,7 @@ jobs:
 
       - name: Terraform Plan
         env: 
-          BUCKET_NAME: ${{secrets.BUCKET_NAME}}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
         run: |
           terraform plan \
             -var="bucket_name=$BUCKET_NAME"
@@ -41,6 +41,6 @@ jobs:
 
       - name: Terraform Apply
         env:
-          TF_VAR_bucket_name: ${{secrets.secrets.BUCKET_NAME}}
+          TF_VAR_bucket_name: ${{ secrets.BUCKET_NAME }}
         run: terraform apply -auto-approve
         working-directory: terraform
