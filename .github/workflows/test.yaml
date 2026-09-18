@@ -47,7 +47,7 @@ jobs:
         
       - name: Uploading files to S3 Bucket
         run: |
-            aws s3 cp index.hmtl s3://${{ secrets.BUCKET_NAME }}/index.html
+            aws s3 cp index.html s3://${{ secrets.BUCKET_NAME }}/index.html
             aws s3 cp --recursive Images/ s3://${{ secrets.BUCKET_NAME }}/images/
             aws s3 cp --recursive styles/ s3://${{ secrets.BUCKET_NAME }}/styles/
 
