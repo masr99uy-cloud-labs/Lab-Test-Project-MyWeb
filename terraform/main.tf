@@ -12,7 +12,7 @@ resource "aws_s3_bucket_website_configuration" "static_website_config" {
   
 }
 
-resource "aws_s3_bucket_website_policy" "static_website_policy" {
+resource "aws_s3_bucket_policy" "static_website_policy" {
     bucket = aws_s3_bucket.static_site.id
 
     policy = jsonencode({
