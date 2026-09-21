@@ -1,0 +1,50 @@
+name: Destroy resources .
+
+on:
+  #push:
+   # branches:
+    #  - master
+  workflow_dispatch:
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  destroy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.IAM_ROLE }}
+          aws-region: ${{ secrets.AWS_REGION }} 
+      - name: Empty s3 bucket
+        run: |
+            aws S3 rm s3//:${{ secrets.AWS_REGION }} --recursive
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: Initialize terraform
+        run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Plan
+        env: 
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+        run: |
+          terraform plan -destroy \
+            -var="bucket_name=$BUCKET_NAME"
+
+        working-directory: terraform
+
+      - name: Terraform Destroy
+        env:
+          TF_VAR_bucket_name: ${{ secrets.BUCKET_NAME }}
+        run: terraform destroy -auto-approve
+        working-directory: terraform
+        
