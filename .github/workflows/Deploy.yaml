@@ -1,4 +1,4 @@
-name: Create an S3 bucket.
+name: Deploy my website .
 
 on:
   push:
