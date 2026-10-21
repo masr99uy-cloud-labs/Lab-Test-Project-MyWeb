@@ -4,15 +4,6 @@ resource "aws_s3_bucket" "static_site" {
     force_destroy = true
 }
 
-#resource "aws_s3_bucket_website_configuration" "static_website_config" {#
-    #bucket = aws_s3_bucket.static_site.id
-
-    #index_document {
-    #    suffix = "index.html"
-   # }
-  
-#}
-
  resource "aws_s3_bucket_public_access_block" "static_site_access" {
     bucket = aws_s3_bucket.static_site.id
     block_public_acls = true
@@ -21,26 +12,11 @@ resource "aws_s3_bucket" "static_site" {
     restrict_public_buckets = true
      }     
 
-#resource "aws_s3_bucket_policy" "static_website_policy" {
- #   bucket = aws_s3_bucket.static_site.id
-
-  #  policy = jsonencode({
-   #     Version = "2012-10-17"
-    #    Statement = [
-     #       {
-      #          Effect = "Allow"
-       #         Principal = "*"
-        #        Action = "s3:GetObject"
-         #       Resource = "${aws_s3_bucket.static_site.arn}/*"
-          #  }
-        #]
-
-   #})
-  #  depends_on = [ aws_s3_bucket_public_access_block.static_site_access ]
-#}
 
 ### Now i should create the certificate in ACM, the domain and the relevant 
 ##  security settings, but I can’t do this with the free tier.
+
+
 
 resource "aws_cloudfront_origin_access_control" "oac" {
   name                              = "oac-${aws_s3_bucket.static_site.bucket}"
