@@ -2,9 +2,10 @@
 
 A personal static website (HTML/CSS) served through **CloudFront** from a **private S3 bucket**. The whole infrastructure is defined with **Terraform**, and every push to "master" runs a **GitHub Actions** workflow that provisions the infrastructure and deploys the site, authenticating to AWS with **OIDC** (no long-lived access keys stored anywhere).
 
+> **Note:** I already had AWS experience and the Solutions Architect Associate certification, and I used this project especially to practice Infrastructure as Code and CI/CD end to end. I built it by following a Udemy course ([Cloud Automation Projects: AWS, Terraform & GitHub Actions](https://www.udemy.com/course/aws-terraform-github-actions-projects-personal-website/)) and then improved it on my own using other sources and AI assistants (ChatGPT, Claude) to clarify concepts, debug issues and draft documentation.
+
 > **About the site:** the HTML/CSS was generated with AI from my CV. The focus of this project is the infrastructure and the deployment pipeline, not the front-end.
 >
-> **Note:** I built this project by following a Udemy course ([Cloud Automation Projects: AWS, Terraform & GitHub Actions](https://www.udemy.com/share/10dBTd3@v2Tq74oB9w8iRuLLYKa4gAH8s5cSAO12bOr1TwI-0ZA5iJgyzm97jgC67qN2vRsT5g==/)) and then improved it on my own using other sources and AI assistants (ChatGPT, Claude) to clarify concepts, debug issues and draft documentation.
 
 > **Live demo:** the site ran on a temporary AWS free-tier account that has since expired, so the CloudFront URL is no longer available. The screenshots below show it running. Since the whole infrastructure is defined in Terraform, I plan to redeploy it on a new account and I will update this note when it is live again.
 
@@ -115,12 +116,7 @@ Designed to run within the AWS free plan. To remove everything, run the **Destro
 
 ## What I learned
 
-- Terraform: The importance of resource dependencies, variable management, and remote state configuration using an S3 backend with state locking.
-
-- AWS Security: Private S3 bucket architecture, least-privilege resource policies, and CloudFront Origin Access Control (OAC).
-
-- CI/CD with GitHub Actions: Automated infrastructure provisioning and website deployment through workflow triggers and sequential execution of Terraform and AWS CLI commands.
-
-- AWS IAM & OIDC: Role-based authentication between GitHub Actions and AWS without relying on long-lived access keys.
-
-- Troubleshooting: Diagnosing access-denied errors, validating resource dependencies, and troubleshooting CloudFront-to-S3 access and website delivery.
+- **Terraform:** resource dependencies, variables, and remote state in an S3 backend with state locking.
+- **Private S3 with CloudFront OAC:** serving a site from a private bucket, with a bucket policy that only lets my distribution read it.
+- **GitHub Actions:** a workflow that runs Terraform and uploads the site, a separate manual Destroy workflow, and secrets instead of hardcoded values. I also learned to follow the run logs to find out why a run failed.
+- **OIDC:** authenticating GitHub Actions to AWS with a role instead of long-lived access keys.
